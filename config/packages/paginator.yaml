@@ -1,0 +1,5 @@
+knp_paginator:
+  template:
+    pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'     # sliding pagination controls template
+    sortable: '@KnpPaginator/Pagination/twitter_bootstrap_v4_font_awesome_sortable_link.html.twig' # sort link template
+    filtration: '@KnpPaginator/Pagination/twitter_bootstrap_v4_filtration.html.twig'  # filters template

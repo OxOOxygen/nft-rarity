@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AssetListController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    {# total items count #}
+    <!--<div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>-->
+    <a href="/data.db" target="_blank">Download sqlite database</a>
+    <p>Filtering for name like this *9999*, * acts as a wildcard.</p>
+    <table class="table table-striped">
+        <tr>
+            {# sorting of properties based on query components #}
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'asset.id') }}</th>
+            <th{% if pagination.isSorted('asset.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Name', 'asset.name') }}
+                {{ knp_pagination_filter(pagination, {
+                    'asset.name': 'Name',
+                }) }}
+            </th>
+            {% for attribute in attributes %}
+                <th>{{ attribute }}</th>
+            {% endfor %}
+            <th>Trait count</th>
+        </tr>
+
+        {# table body #}
+        {% for asset in pagination %}
+            <tr>
+                <td>{{ asset.id }}</td>
+                <td> {{ asset.name }}</td>
+                {% for attribute in attributes %}
+                    {% set attributeValue = asset.getAttributeByType(attribute) ? asset.getAttributeByType(attribute).value : '' %}
+
+                    <td>
+                        {{ attributeValue }}
+                        <br />{{ attributeValue is not same as '' ? (rarities[attributeValue]['percentage'] * 100) | round(2) ~ '%' : '' }}
+                    </td>
+                {% endfor %}
+                <td> {{ asset.attributes|length }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+</div>
+{% endblock %}
