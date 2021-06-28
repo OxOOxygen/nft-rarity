@@ -44,9 +44,17 @@ class AssetListController extends AbstractController
             $request->query->getInt('limit', 10) /*limit per page*/
         );
 
+        $attributeValues = [];
+        $attributes = array_merge(...$this->attributeRepository->getDistinctTypes($projectId));
+
+        foreach ($attributes as $attribute) {
+            $attributeValues[$attribute] = array_merge(...$this->attributeRepository->getDistinctValuesForType($projectId, $attribute));
+        }
+
         return $this->render('asset_list/index.html.twig', [
             'assets' => [],
-            'attributes' => array_merge(...$this->attributeRepository->getDistinctTypes($projectId)),
+            'attributes' => $attributes,
+            'attributeValues' => $attributeValues,
             'rarities' => $this->attributeRepository->getRarities($projectId),
             'pagination' => $pagination,
             'controller_name' => 'AssetListController',

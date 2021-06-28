@@ -107,4 +107,16 @@ class AttributeRepository extends ServiceEntityRepository
 
         return $raritiesMappedByValue;
     }
+
+    public function getDistinctValuesForType(int $projectId, string $type): array
+    {
+        $queryBuilder = $this->createQueryBuilder('attribute');
+
+        return $queryBuilder
+            ->select('distinct(attribute.value)')
+            ->where($queryBuilder->expr()->eq('attribute.project', $projectId))
+            ->andWhere($queryBuilder->expr()->eq('attribute.type', $queryBuilder->expr()->literal($type)))
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+    }
 }

@@ -8,12 +8,12 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+
 <div class="example-wrapper">
     {# total items count #}
     <!--<div class="count">
         {{ pagination.getTotalItemCount }}
     </div>-->
-    <a href="/data.db" target="_blank">Download sqlite database</a>
     <p>Filtering for name like this *9999*, * acts as a wildcard.</p>
     <table class="table table-striped">
         <tr>
@@ -53,5 +53,23 @@
         {{ knp_pagination_render(pagination) }}
     </div>
 
+    <div class="accordion close" id="accordionExample">
+        {% for attribute, values in attributeValues %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ attribute }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ attribute }}" aria-expanded="true" aria-controls="collapse{{ attribute }}">
+                        {{ attribute }}
+                    </button>
+                </h2>
+                <div id="collapse{{ attribute }}" class="accordion-collapse collapse" aria-labelledby="heading{{ attribute }}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for value in values %}
+                            <p>{{ value }} : {{ (rarities[value]['percentage'] * 100) | round(2) ~ '%' }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
