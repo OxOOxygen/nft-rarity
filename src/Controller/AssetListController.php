@@ -30,8 +30,6 @@ class AssetListController extends AbstractController
     {
         $projectId = $request->get('project-id');
 
-        $projectId = 1;
-
         if ($projectId === null) {
             throw new NotFoundHttpException('Missing project-id');
         }

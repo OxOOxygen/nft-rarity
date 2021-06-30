@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AssetListController!{% endblock %}
+{% block title %}Assets for project!{% endblock %}
 
 {% block body %}
 <style>
@@ -56,15 +56,15 @@
     <div class="accordion close" id="accordionExample">
         {% for attribute, values in attributeValues %}
             <div class="accordion-item">
-                <h2 class="accordion-header" id="heading{{ attribute }}">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ attribute }}" aria-expanded="true" aria-controls="collapse{{ attribute }}">
+                <h2 class="accordion-header" id="heading{{ attribute|replace({' ': ''}) }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ attribute|replace({' ': ''}) }}" aria-expanded="true" aria-controls="collapse{{ attribute|replace({' ': ''}) }}">
                         {{ attribute }}
                     </button>
                 </h2>
-                <div id="collapse{{ attribute }}" class="accordion-collapse collapse" aria-labelledby="heading{{ attribute }}" data-bs-parent="#accordionExample">
+                <div id="collapse{{ attribute|replace({' ': ''}) }}" class="accordion-collapse collapse" aria-labelledby="heading{{ attribute|replace({' ': ''}) }}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% for value in values %}
-                            <p>{{ value }} : {{ (rarities[value]['percentage'] * 100) | round(2) ~ '%' }}</p>
+                            <p>{{ value }} : {{ (rarities[value]['percentage'] * 100) | round(2) ~ '%' ~ ' (' ~ rarities[value]['abs'] ~ ')' }}</p>
                         {% endfor %}
                     </div>
                 </div>

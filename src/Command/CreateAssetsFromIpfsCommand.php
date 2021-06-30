@@ -40,7 +40,7 @@ class CreateAssetsFromIpfsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('link', InputArgument::REQUIRED, 'https://ipfs.io/ipfs/QmbumZq4f81hc2KsVWMMH2AmRpw7nSwX3KBsjABewabNnj/id.json')
+            ->addArgument('link', InputArgument::REQUIRED, 'https://ipfs.io/ipfs/QmbumZq4f81hc2KsVWMMH2AmRpw7nSwX3KBsjABewabNnj/{id}.json')
             ->addArgument('project-id', InputArgument::REQUIRED)
             ->addArgument('id-end', null, InputArgument::REQUIRED, 'id end')
         ;
@@ -55,7 +55,7 @@ class CreateAssetsFromIpfsCommand extends Command
         $project = $this->projectRepository->find($input->getArgument('project-id'));
 
         while ($project !== null && $idCount !== 0) {
-            $ipfsLink = str_replace('id.json', $idCount.'.json', $input->getArgument('link'));
+            $ipfsLink = str_replace('{id}', $idCount, $input->getArgument('link'));
 
             if ($this->metadataRepository->findOneBy(['url' => $ipfsLink]) !== null) {
                 $idCount--;
@@ -63,7 +63,11 @@ class CreateAssetsFromIpfsCommand extends Command
             }
 
             $output->writeln('Retrieving data from ' . $ipfsLink);
-            $ipfsJson = file_get_contents($ipfsLink);
+            $ipfsJson = @file_get_contents($ipfsLink);
+
+            while (!$ipfsJson) {
+                $ipfsJson = @file_get_contents($ipfsLink);
+            }
 
             if (!$ipfsJson) {
                 $output->writeln('No data found');
@@ -77,6 +81,11 @@ class CreateAssetsFromIpfsCommand extends Command
 
             try {
                 $ipfsData = json_decode($ipfsJson, true, 512, JSON_THROW_ON_ERROR);
+                if (isset($ipfsData['error'])) {
+                    $output->writeln($ipfsData['error']);
+                    $idCount--;
+                    continue;
+                }
                 $output->writeln('Data found: ' . var_export($ipfsData, true));
                 $metadata->setData($ipfsData);
             } catch (JsonException $jsonException) {
