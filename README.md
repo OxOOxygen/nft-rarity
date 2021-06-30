@@ -1,7 +1,9 @@
 # Vision
 
 NFT Rarity aims to provide a self hostable or saas solution for NFT projects to provide their rarities.
+
 Additionally, another project will aggregate these instances of NFT Rarity to provide an overview of existing NFT projects.
+
 NFT Rarity will be open source under the GPL v3 license.
 
 # Technologies
@@ -25,7 +27,9 @@ Self-hosting NFT Rarity should be as easy as possible, therefore docker will be 
 
 ## Contribution & Donations
 I will try my best to make this project come to life and support NFT projects which are either declined by projects like rarity.tools, nftrarity.net or want to host a solution themselves to provide an awesome experience on launch.
+
 Since I'm a fulltime developer and will do this in my freetime and open source it, any contributions are welcome!
+
 Donations (tony-stark.eth) which would let me work more on this are also welcome, but I rather take the contributions and build an open source network of nft developers.
 
 ## About me
