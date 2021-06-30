@@ -1,4 +1,5 @@
-# Vision
+# NFT Rarity
+## Vision
 
 NFT Rarity aims to provide a self hostable or saas solution for NFT projects to provide their rarities.
 
@@ -6,7 +7,7 @@ Additionally, another project will aggregate these instances of NFT Rarity to pr
 
 NFT Rarity will be open source under the GPL v3 license.
 
-# Technologies
+## Technologies
 - PHP
 - Symfony (PHP Framework)
 - SQL
