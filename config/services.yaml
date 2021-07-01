@@ -21,5 +21,20 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    App\Command\EsIndexCreateCommand:
+        arguments: [ '@app.elastica.client.default' ]
+        tags:
+            - { name: console.command }
+
+    App\Command\EsDocumentsCreateCommand:
+        arguments: [ '@app.elastica.client.default' ]
+        tags:
+            - { name: console.command }
+
+    app.elastica.client.default:
+        class: Elastica\Client
+        arguments:
+            - '%env(APP_ELASTICSEARCH_DSN)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
